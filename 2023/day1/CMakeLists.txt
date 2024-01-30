@@ -1,0 +1,11 @@
+cmake_minimum_required(VERSION 3.22.1)
+
+project(day1)
+
+set(CMAKE_BUILD_TYPE Debug)
+
+add_executable(unit_tests unit_tests.cpp calibration.cpp)
+target_link_libraries(unit_tests gtest gtest_main)
+
+add_executable(p1 p1_main.cpp calibration.cpp)
+add_executable(p2 p2_main.cpp calibration.cpp)

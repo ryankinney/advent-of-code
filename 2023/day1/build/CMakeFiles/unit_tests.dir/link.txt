@@ -1,0 +1,1 @@
+/usr/bin/c++ -g CMakeFiles/unit_tests.dir/unit_tests.cpp.o CMakeFiles/unit_tests.dir/calibration.cpp.o -o unit_tests  -lgtest -lgtest_main 

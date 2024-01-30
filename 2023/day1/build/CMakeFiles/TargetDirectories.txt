@@ -1,0 +1,5 @@
+/home/ryan/dev/advent-of-code/2023/day1/build/CMakeFiles/unit_tests.dir
+/home/ryan/dev/advent-of-code/2023/day1/build/CMakeFiles/p1.dir
+/home/ryan/dev/advent-of-code/2023/day1/build/CMakeFiles/p2.dir
+/home/ryan/dev/advent-of-code/2023/day1/build/CMakeFiles/edit_cache.dir
+/home/ryan/dev/advent-of-code/2023/day1/build/CMakeFiles/rebuild_cache.dir
