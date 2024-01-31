@@ -4,8 +4,8 @@
 
 namespace
 {
-    const char *examplesFileName = "/home/ryan/dev/advent-of-code/day2/examples.txt";
-    const char *inputFileName = "/home/ryan/dev/advent-of-code/day2/input.txt";
+    const char *examplesFileName = "/home/ryan/dev/advent-of-code/2023/day2/examples.txt";
+    const char *inputFileName = "/home/ryan/dev/advent-of-code/2023/day2/input.txt";
 
     void ExpectExampleGame1(const Game &game)
     {
