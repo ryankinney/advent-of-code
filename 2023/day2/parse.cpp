@@ -61,11 +61,11 @@ Game ParseLine(const std::string &line)
     return game;
 }
 
-Games ParseFile(const std::string &fileName)
+Games ParseFile(const std::string &filename)
 {
     std::string line;
     Games games;
-    std::ifstream file(fileName);
+    std::ifstream file(filename);
     while (std::getline(file, line))
     {
         const Game &game = ParseLine(line);
