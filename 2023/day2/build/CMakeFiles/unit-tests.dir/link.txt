@@ -1,1 +1,0 @@
-/usr/bin/c++ -g CMakeFiles/unit-tests.dir/parse.cpp.o CMakeFiles/unit-tests.dir/process.cpp.o CMakeFiles/unit-tests.dir/unit-tests.cpp.o -o unit-tests  -lgtest -lgtest_main 

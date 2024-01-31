@@ -1,3 +1,0 @@
-/home/ryan/dev/advent-of-code/day2/build/CMakeFiles/unit-tests.dir
-/home/ryan/dev/advent-of-code/day2/build/CMakeFiles/edit_cache.dir
-/home/ryan/dev/advent-of-code/day2/build/CMakeFiles/rebuild_cache.dir
