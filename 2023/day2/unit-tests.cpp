@@ -103,14 +103,16 @@ TEST(Game, ProcessExamples)
 {
     const Games &games = ParseFile(examplesFilename);
     const TotalResult &totalResult = ProcessGames(games);
-    EXPECT_EQ(8, totalResult.sum);
+    EXPECT_EQ(8, totalResult.sumOfPossibleGames);
+    EXPECT_EQ(2286, totalResult.sumOfGamePowers);
 }
 
 TEST(Game, ProcessInput)
 {
     const Games &games = ParseFile(inputFilename);
     const TotalResult &totalResult = ProcessGames(games);
-    EXPECT_EQ(2600, totalResult.sum);
+    EXPECT_EQ(2600, totalResult.sumOfPossibleGames);
+    EXPECT_EQ(86036, totalResult.sumOfGamePowers);
 }
 
 int main(int argc, char **argv)

@@ -25,7 +25,8 @@ TotalResult ProcessGames(const Games &games)
         const Game &game = games[gameIndex];
         const GameResult &gameResult = ProcessGame(game);
         if (!gameResult.tooManyCubes)
-            totalResult.sum += game.idNumber;
+            totalResult.sumOfPossibleGames += game.idNumber;
+        totalResult.sumOfGamePowers += gameResult.power;
     }
     return totalResult;
 }

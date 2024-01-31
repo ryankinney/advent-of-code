@@ -10,7 +10,8 @@ struct GameResult
 
 struct TotalResult
 {
-    size_t sum = 0;
+    size_t sumOfPossibleGames = 0;
+    size_t sumOfGamePowers = 0;
 };
 
 GameResult ProcessGame(const Game &game);
