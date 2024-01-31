@@ -1,8 +1,9 @@
-#include "calibration.h"
+#include "part2.h"
 
-#include <algorithm>
+#include <array>
 #include <cassert>
-#include <iostream>
+#include <fstream>
+#include <vector>
 
 namespace
 {
@@ -74,23 +75,9 @@ namespace
     }
 }
 
-int GetP1CalibrationValue(const std::string &input)
+size_t P2::GetCalibrationValue(const std::string &input)
 {
-    int calibrationValue = 0;
-    auto isDigit = [](char c) { return std::isdigit(c); };
-    auto firstDigit = std::find_if(input.begin(), input.end(), isDigit);
-    if (firstDigit != input.end())
-    {
-        auto lastDigit = std::find_if(input.rbegin(), input.rend(), isDigit);
-        assert(lastDigit != input.rend()); // If a first digit was found, then a last digit should always be found too
-        calibrationValue = 10*(*firstDigit - '0') + *lastDigit - '0';
-    }
-    return calibrationValue;
-}
-
-int GetP2CalibrationValue(const std::string &input)
-{
-    int calibrationValue = 0;
+    size_t calibrationValue = 0;
     int firstDigit = 0;
     if (FindDigit(frontwards, input.begin(), input.end(), &firstDigit))
     {
@@ -100,4 +87,14 @@ int GetP2CalibrationValue(const std::string &input)
         calibrationValue = 10*firstDigit + lastDigit;
     }
     return calibrationValue;
+}
+
+size_t P2::GetSum(const std::string &filename)
+{
+    size_t sum = 0;
+    std::ifstream in(filename);
+    std::string line;
+    while (std::getline(in, line))
+        sum += P2::GetCalibrationValue(line);
+    return sum;
 }
