@@ -1,7 +1,6 @@
 #include "part2.h"
 
 #include <array>
-#include <cassert>
 #include <fstream>
 #include <vector>
 
@@ -82,8 +81,7 @@ size_t P2::GetCalibrationValue(const std::string &input)
     if (FindDigit(frontwards, input.begin(), input.end(), &firstDigit))
     {
         int lastDigit = 0;
-        const bool foundLastDigit = FindDigit(backwards, input.rbegin(), input.rend(), &lastDigit);
-        assert(foundLastDigit); // If a first digit was found, then a last digit should always be found too
+        FindDigit(backwards, input.rbegin(), input.rend(), &lastDigit);
         calibrationValue = 10*firstDigit + lastDigit;
     }
     return calibrationValue;
