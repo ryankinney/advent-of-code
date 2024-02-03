@@ -1,7 +1,18 @@
 #include <gtest/gtest.h>
+#include "ScratchCards.h"
 
-TEST(TestCase, Test)
+TEST(ScratchCards, Examples)
 {
+    ScratchCards scratchCards;
+    scratchCards.Load("../example.txt");
+    EXPECT_EQ(scratchCards.CalculatePoints(), 13);
+}
+
+TEST(ScratchCards, Input)
+{
+    ScratchCards scratchCards;
+    scratchCards.Load("../input.txt");
+    EXPECT_EQ(scratchCards.CalculatePoints(), 25010);
 }
 
 int main(int argc, char **argv)
