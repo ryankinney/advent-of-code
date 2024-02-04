@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-void ScratchCard::Parse(const std::string &line)
+void ScratchCard::ParseLine(const std::string &line)
 {
     // An example line
     // Card 1: 41 48 83 86 17 | 83 86  6 31 17  9 48 53
@@ -50,22 +50,14 @@ size_t ScratchCard::CalculatePoints() const
     return numMatches == 0 ? 0 : 1 << (numMatches - 1);
 }
 
-void ScratchCards::Load(const std::string &filename)
-{
-    std::string line;
-    std::ifstream in(filename);
-    while (std::getline(in, line))
-    {
-        ScratchCard scratchCard;
-        scratchCard.Parse(line);
-        scratchCards.push_back(scratchCard);
-    }
-}
-
 std::size_t ScratchCards::CalculatePoints() const
 {
     size_t points = 0;
-    for (const ScratchCard &scratchCard : scratchCards)
+    const LineParsers &lineParsers = GetLineParsers();
+    for (LineParsers::const_iterator iter = lineParsers.begin(); iter != lineParsers.end(); iter++)
+    {
+        const ScratchCard &scratchCard = dynamic_cast<const ScratchCard &>(**iter);
         points += scratchCard.CalculatePoints();
+    }
     return points;
 }

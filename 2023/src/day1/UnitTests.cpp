@@ -20,14 +20,14 @@ namespace
     size_t GetP1Sum(const std::string &filename)
     {
         CalibrationDocument calibrationDocument(std::unique_ptr<LineParserFactoryBase>(new LineParserFactory<P1Calibration>));
-        calibrationDocument.ParseFile(filename);
+        calibrationDocument.Load(filename);
         return calibrationDocument.GetSum();
     }
 
     size_t GetP2Sum(const std::string &filename)
     {
         CalibrationDocument calibrationDocument(std::unique_ptr<LineParserFactoryBase>(new LineParserFactory<P2Calibration>));
-        calibrationDocument.ParseFile(filename);
+        calibrationDocument.Load(filename);
         return calibrationDocument.GetSum();
     }
 }

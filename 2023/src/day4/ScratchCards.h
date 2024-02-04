@@ -1,13 +1,13 @@
 #pragma once
 
 #include <set>
-#include <string>
-#include <vector>
+#include "FileParser.h"
 
-class ScratchCard
+class ScratchCard : public LineParser
 {
 public:
-    void Parse(const std::string &line);
+    void ParseLine(const std::string &line) override;
+
     size_t CalculatePoints() const;
 
 private:
@@ -15,12 +15,10 @@ private:
     std::vector<size_t> myNumbers;
 };
 
-class ScratchCards
+class ScratchCards : public FileParser
 {
 public:
-    void Load(const std::string &filename);
-    std::size_t CalculatePoints() const;
+    ScratchCards() : FileParser(std::unique_ptr<LineParserFactoryBase>(new LineParserFactory<ScratchCard>)) {}
 
-private:
-    std::vector<ScratchCard> scratchCards;
+    std::size_t CalculatePoints() const;
 };

@@ -2,7 +2,7 @@
 
 #include <fstream>
 
-void FileParser::ParseFile(const std::string &filename)
+void FileParser::Load(const std::string &filename)
 {
     std::string line;
     std::ifstream in(filename);

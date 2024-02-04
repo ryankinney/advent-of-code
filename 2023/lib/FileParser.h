@@ -35,7 +35,7 @@ public:
     {
     }
 
-    void ParseFile(const std::string &filename);
+    void Load(const std::string &filename);
 
 protected:
     const LineParsers &GetLineParsers() const { return m_lineParsers; }
