@@ -4,14 +4,14 @@
 TEST(ScratchCards, Examples)
 {
     ScratchCards scratchCards;
-    scratchCards.Load("../example.txt");
+    scratchCards.Load("example.txt");
     EXPECT_EQ(scratchCards.CalculatePoints(), 13);
 }
 
 TEST(ScratchCards, Input)
 {
     ScratchCards scratchCards;
-    scratchCards.Load("../input.txt");
+    scratchCards.Load("input.txt");
     EXPECT_EQ(scratchCards.CalculatePoints(), 25010);
 }
 

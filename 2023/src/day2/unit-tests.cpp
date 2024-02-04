@@ -4,9 +4,6 @@
 
 namespace
 {
-    const char *examplesFilename = "/home/ryan/dev/advent-of-code/2023/day2/examples.txt";
-    const char *inputFilename = "/home/ryan/dev/advent-of-code/2023/day2/input.txt";
-
     void ExpectExampleGame1(const Game &game)
     {
         EXPECT_EQ(1, game.idNumber);
@@ -85,7 +82,7 @@ TEST(Game, ParseLine)
 
 TEST(Game, ParseExamples)
 {
-    const Games &games = ParseFile(examplesFilename);
+    const Games &games = ParseFile("examples.txt");
     EXPECT_EQ(5, games.size());
     ExpectExampleGame1(games[0]);
     ExpectExampleGame5(games[4]);
@@ -93,7 +90,7 @@ TEST(Game, ParseExamples)
 
 TEST(Game, ParseInput)
 {
-    const Games &games = ParseFile(inputFilename);
+    const Games &games = ParseFile("input.txt");
     EXPECT_EQ(100, games.size());
     ExpectInputGame1(games[0]);
     ExpectInputGame100(games[99]);
@@ -101,7 +98,7 @@ TEST(Game, ParseInput)
 
 TEST(Game, ProcessExamples)
 {
-    const Games &games = ParseFile(examplesFilename);
+    const Games &games = ParseFile("examples.txt");
     const TotalResult &totalResult = ProcessGames(games);
     EXPECT_EQ(8, totalResult.sumOfPossibleGames);
     EXPECT_EQ(2286, totalResult.sumOfGamePowers);
@@ -109,7 +106,7 @@ TEST(Game, ProcessExamples)
 
 TEST(Game, ProcessInput)
 {
-    const Games &games = ParseFile(inputFilename);
+    const Games &games = ParseFile("input.txt");
     const TotalResult &totalResult = ProcessGames(games);
     EXPECT_EQ(2600, totalResult.sumOfPossibleGames);
     EXPECT_EQ(86036, totalResult.sumOfGamePowers);

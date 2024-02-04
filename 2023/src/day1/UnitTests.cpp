@@ -3,8 +3,6 @@
 
 namespace
 {
-    static const char *inputFilename = "../input.txt";
-
     size_t GetP1CalibrationValue(const std::string &line)
     {
         P1Calibration calibration;
@@ -55,22 +53,22 @@ TEST(P2Calibration, ExampleLines)
 
 TEST(P1CalibrationDocument, Examples)
 {
-    EXPECT_EQ(GetP1Sum("../p1-examples.txt"), 142);
+    EXPECT_EQ(GetP1Sum("p1-examples.txt"), 142);
 }
 
 TEST(P1CalibrationDocument, Input)
 {
-    EXPECT_EQ(GetP1Sum(inputFilename), 55208);
+    EXPECT_EQ(GetP1Sum("input.txt"), 55208);
 }
 
 TEST(P2CalibrationDocument, Examples)
 {
-    EXPECT_EQ(GetP2Sum("../p2-examples.txt"), 281);
+    EXPECT_EQ(GetP2Sum("p2-examples.txt"), 281);
 }
 
 TEST(P2CalibrationDocument, Input)
 {
-    EXPECT_EQ(GetP2Sum(inputFilename), 54578);
+    EXPECT_EQ(GetP2Sum("input.txt"), 54578);
 }
 
 int main(int argc, char **argv)
