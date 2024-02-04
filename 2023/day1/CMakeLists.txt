@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.22.1)
 
-project(day1)
+project(Day1)
 set(CMAKE_BUILD_TYPE Debug)
 
 add_executable(unit-tests FileParser.cpp CalibrationDocument.cpp UnitTests.cpp)
