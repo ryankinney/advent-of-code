@@ -53,7 +53,7 @@ TEST(P2Calibration, ExampleLines)
 
 TEST(P1CalibrationDocument, Examples)
 {
-    EXPECT_EQ(GetP1Sum("p1-examples.txt"), 142);
+    EXPECT_EQ(GetP1Sum("p1-example.txt"), 142);
 }
 
 TEST(P1CalibrationDocument, Input)
@@ -63,7 +63,7 @@ TEST(P1CalibrationDocument, Input)
 
 TEST(P2CalibrationDocument, Examples)
 {
-    EXPECT_EQ(GetP2Sum("p2-examples.txt"), 281);
+    EXPECT_EQ(GetP2Sum("p2-example.txt"), 281);
 }
 
 TEST(P2CalibrationDocument, Input)
