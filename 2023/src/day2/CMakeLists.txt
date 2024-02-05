@@ -1,5 +1,5 @@
-add_executable(d2-unit-tests parse.cpp process.cpp unit-tests.cpp)
-target_link_libraries(d2-unit-tests gtest gtest_main)
+add_executable(d2-unit-tests GameDocument.cpp UnitTests.cpp)
+target_link_libraries(d2-unit-tests gtest gtest_main advent-of-code)
 
 set(DATA_FILES "${CMAKE_CURRENT_SOURCE_DIR}/example.txt" "${CMAKE_CURRENT_SOURCE_DIR}/input.txt")
 set(DEST_PATH "${CMAKE_CURRENT_BINARY_DIR}/")

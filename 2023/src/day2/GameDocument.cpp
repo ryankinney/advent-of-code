@@ -1,9 +1,8 @@
-#include "parse.h"
+#include "GameDocument.h"
 
-#include <fstream>
 #include <sstream>
 
-Game ParseLine(const std::string &line)
+void Game::ParseLine(const std::string &line)
 {
     // Example line is "Game 1: 3 blue, 4 red; 1 red, 2 green, 6 blue; 2 green"
     std::istringstream in(line);
@@ -13,8 +12,7 @@ Game ParseLine(const std::string &line)
     in >> theWordGame;
 
     // Parse the idNumber
-    Game game;
-    in >> game.idNumber;
+    in >> m_idNumber;
 
     // Parse the colon
     std::string aColon;
@@ -48,28 +46,41 @@ Game ParseLine(const std::string &line)
 
         if (colorStrRemainder.empty())
         {
-            game.sets.push_back(set);
+            m_sets.push_back(set);
             break;
         }
 
         if (colorStrRemainder == ";")
         {
-            game.sets.push_back(set);
+            m_sets.push_back(set);
             set = Set();
         }
     }
-    return game;
 }
 
-Games ParseFile(const std::string &filename)
+void Game::CalculateResults()
 {
-    std::string line;
-    Games games;
-    std::ifstream file(filename);
-    while (std::getline(file, line))
+    size_t minRedCubes = 0, minBlueCubes = 0, minGreenCubes = 0;
+    for (size_t setIndex = 0; setIndex < m_sets.size(); setIndex++)
     {
-        const Game &game = ParseLine(line);
-        games.push_back(game);
+        const Set &set = m_sets[setIndex];
+        if (!m_hasTooManyCubes && set.numRed > 12 || set.numGreen > 13 || set.numBlue > 14)
+            m_hasTooManyCubes = true;
+        minRedCubes = std::max(minRedCubes, set.numRed);
+        minGreenCubes = std::max(minGreenCubes, set.numGreen);
+        minBlueCubes = std::max(minBlueCubes, set.numBlue);
     }
-    return games;
+    m_power = minRedCubes * minGreenCubes * minBlueCubes;
+}
+
+void GameDocument::CalculateResults()
+{
+    for (LineParsers::iterator iter = m_lineParsers.begin(); iter != m_lineParsers.end(); iter++)
+    {
+        Game &game = dynamic_cast<Game &>(**iter);
+        game.CalculateResults();
+        if (!game.HasTooManyCubes())
+            m_sumOfPossibleGames += game.GetIDNumber();
+        m_sumOfGamePowers += game.GetPower();
+    }
 }

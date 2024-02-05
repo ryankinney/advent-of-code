@@ -40,7 +40,8 @@ public:
 protected:
     const LineParsers &GetLineParsers() const { return m_lineParsers; }
 
+    LineParsers m_lineParsers;
+
 private:
     std::unique_ptr<LineParserFactoryBase> m_lineParserFactory;
-    LineParsers m_lineParsers;
 };
