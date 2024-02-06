@@ -1,20 +1,22 @@
 #include <gtest/gtest.h>
-#include "Engine.h"
+#include "EngineSchematic.h"
 
-TEST(Engine, Examples)
+TEST(EngineSchematic, Examples)
 {
-    Engine engine;
-    engine.Build("example.txt");
-    EXPECT_EQ(engine.AddPartNumbers(), 4361);
-    EXPECT_EQ(engine.AddGearRatios(), 467835);
+    EngineSchematic engineSchematic;
+    engineSchematic.Load("example.txt");
+    engineSchematic.FindPartNumbersAndGears();
+    EXPECT_EQ(engineSchematic.CalculateSumOfPartNumbers(), 4361);
+    EXPECT_EQ(engineSchematic.CalculateSumOfGearRatios(), 467835);
 }
 
-TEST(Engine, Input)
+TEST(EngineSchematic, Input)
 {
-    Engine engine;
-    engine.Build("input.txt");
-    EXPECT_EQ(engine.AddPartNumbers(), 519444);
-    EXPECT_EQ(engine.AddGearRatios(), 74528807);   
+    EngineSchematic engineSchematic;
+    engineSchematic.Load("input.txt");
+    engineSchematic.FindPartNumbersAndGears();
+    EXPECT_EQ(engineSchematic.CalculateSumOfPartNumbers(), 519444);
+    EXPECT_EQ(engineSchematic.CalculateSumOfGearRatios(), 74528807);   
 }
 
 int main(int argc, char **argv)

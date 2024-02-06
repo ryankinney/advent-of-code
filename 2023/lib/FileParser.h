@@ -40,6 +40,9 @@ public:
 protected:
     const LineParsers &GetLineParsers() const { return m_lineParsers; }
 
+    virtual void OnBeginLine(LineParser &lineParser) {}
+    virtual void OnEndLine(LineParser &lineParser) {}
+
     LineParsers m_lineParsers;
 
 private:
