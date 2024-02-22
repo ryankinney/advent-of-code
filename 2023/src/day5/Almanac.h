@@ -12,4 +12,12 @@ class Almanac : public FileParser
 {
 public:
     Almanac() : FileParser(std::unique_ptr<LineParserFactoryBase>(new LineParserFactory<AlamacLineParser>)) {}
+
+private:
+    enum ExpectedToken
+    {
+        Seeds
+    };
+
+    ExpectedToken m_nextToken = Seeds;
 };
