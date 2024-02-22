@@ -1,7 +1,10 @@
 #include <gtest/gtest.h>
+#include "Almanac.h"
 
 TEST(Almanac, Example)
 {
+    Almanac almanac;
+    almanac.Load("example.txt");
 }
 
 int main(int argc, char **argv)
