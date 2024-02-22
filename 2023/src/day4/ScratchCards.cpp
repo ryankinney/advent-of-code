@@ -32,32 +32,74 @@ void ScratchCard::ParseLine(const std::string &line)
         size_t currentWinningNumber = 0;
         std::istringstream currentWinningNumberIn(nextToken);
         currentWinningNumberIn >> currentWinningNumber;
-        winningNumbers.insert(currentWinningNumber);
+        m_winningNumbers.insert(currentWinningNumber);
     }
 
     // Parse my numbers
     size_t currentMyNumber = 0;
     while (in >> currentMyNumber)
-        myNumbers.push_back(currentMyNumber);
+        m_myNumbers.push_back(currentMyNumber);
 }
 
-size_t ScratchCard::CalculatePoints() const
+void ScratchCard::CalculateNumMatches()
 {
-    size_t numMatches = 0;
-    for (const size_t myNumber : myNumbers)
-        if (winningNumbers.find(myNumber) != winningNumbers.end())
-            numMatches++;
-    return numMatches == 0 ? 0 : 1 << (numMatches - 1);
+    m_numMatches = 0;
+    for (const size_t myNumber : m_myNumbers)
+        if (m_winningNumbers.find(myNumber) != m_winningNumbers.end())
+            m_numMatches++;   
 }
 
-std::size_t ScratchCards::CalculatePoints() const
+size_t ScratchCard::GetPoints() const
+{
+    return m_numMatches == 0 ? 0 : 1 << (m_numMatches - 1);
+}
+
+void ScratchCards::CalculateNumMatches()
+{
+    for (size_t index = 0; index < GetNumLineParsers(); index++)
+        GetLineParser<ScratchCard>(index).CalculateNumMatches();
+}
+
+void ScratchCards::CalculateNumCopies()
+{
+    for (size_t outerIndex = 0; outerIndex < GetNumLineParsers(); outerIndex++)
+    {
+        ScratchCard &outerScratchCard = GetLineParser<ScratchCard>(outerIndex);
+        const size_t numMatches = outerScratchCard.GetNumMatches();
+        if (numMatches == 0)
+            continue;
+
+        if (outerIndex + 1 < GetNumLineParsers())
+        {
+            for (size_t innerIndex = outerIndex + 1; innerIndex < outerIndex + numMatches + 1 && innerIndex < GetNumLineParsers(); innerIndex++)
+                GetLineParser<ScratchCard>(innerIndex).IncrementNumCopies(outerScratchCard.GetNumCopies());
+        }
+        //std::cout << "-----Round " << outerIndex + 1 << "-----" << std::endl;
+        //PrintScratchCards();
+    }
+}
+
+void ScratchCards::PrintScratchCards() const
+{
+    for (size_t index = 0; index < GetNumLineParsers(); index++)
+    {
+        const ScratchCard &scratchCard = GetLineParser<ScratchCard>(index);
+        std::cout << index + 1 << ": " << scratchCard.GetNumMatches() << ',' << scratchCard.GetNumCopies() << std::endl;
+    }
+}
+
+size_t ScratchCards::GetPoints() const
 {
     size_t points = 0;
-    const LineParsers &lineParsers = GetLineParsers();
-    for (LineParsers::const_iterator iter = lineParsers.begin(); iter != lineParsers.end(); iter++)
-    {
-        const ScratchCard &scratchCard = dynamic_cast<const ScratchCard &>(**iter);
-        points += scratchCard.CalculatePoints();
-    }
+    for (size_t index = 0; index < GetNumLineParsers(); index++)
+        points += GetLineParser<ScratchCard>(index).GetPoints();
     return points;
+}
+
+size_t ScratchCards::GetTotalScratchCards() const
+{
+    size_t totalScratchCards = 0;
+    for (size_t index = 0; index < GetNumLineParsers(); index++)
+        totalScratchCards += GetLineParser<ScratchCard>(index).GetNumCopies();
+    return totalScratchCards;
 }

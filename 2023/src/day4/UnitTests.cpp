@@ -5,14 +5,20 @@ TEST(ScratchCards, Examples)
 {
     ScratchCards scratchCards;
     scratchCards.Load("example.txt");
-    EXPECT_EQ(scratchCards.CalculatePoints(), 13);
+    scratchCards.CalculateNumMatches();
+    scratchCards.CalculateNumCopies();
+    EXPECT_EQ(scratchCards.GetPoints(), 13);
+    EXPECT_EQ(scratchCards.GetTotalScratchCards(), 30);
 }
 
 TEST(ScratchCards, Input)
 {
     ScratchCards scratchCards;
     scratchCards.Load("input.txt");
-    EXPECT_EQ(scratchCards.CalculatePoints(), 25010);
+    scratchCards.CalculateNumMatches();
+    scratchCards.CalculateNumCopies();
+    EXPECT_EQ(scratchCards.GetPoints(), 25010);
+    EXPECT_EQ(scratchCards.GetTotalScratchCards(), 9924412);
 }
 
 int main(int argc, char **argv)

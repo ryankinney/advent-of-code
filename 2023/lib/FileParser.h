@@ -40,6 +40,10 @@ public:
 protected:
     const LineParsers &GetLineParsers() const { return m_lineParsers; }
 
+    std::size_t GetNumLineParsers() const { return m_lineParsers.size(); }
+    template <class T> T &GetLineParser(const size_t index) { return dynamic_cast<T &>(*m_lineParsers[index]); }
+    template <class T> const T &GetLineParser(const size_t index) const { return dynamic_cast<const T &>(*m_lineParsers[index]); }
+
     virtual void OnBeginLine(LineParser &lineParser) {}
     virtual void OnEndLine(LineParser &lineParser) {}
 
