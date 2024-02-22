@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-TEST(TestCase, Test)
+TEST(Almanac, Example)
 {
 }
 
