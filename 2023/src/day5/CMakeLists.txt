@@ -1,4 +1,4 @@
-add_executable(d5-unit-tests Almanac.cpp UnitTests.cpp)
+add_executable(d5-unit-tests Almanac.cpp AlmanacParser.cpp UnitTests.cpp)
 target_link_libraries(d5-unit-tests gtest gtest_main advent-of-code)
 
 set(DATA_FILES "${CMAKE_CURRENT_SOURCE_DIR}/example.txt" "${CMAKE_CURRENT_SOURCE_DIR}/input.txt")
