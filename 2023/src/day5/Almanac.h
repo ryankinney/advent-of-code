@@ -52,7 +52,8 @@ public:
     void PrintSeeds() const;
     void PrintRangeMaps() const;
     RangeMaps::const_iterator FindRangeMap(const std::string &sourceCategory) const;
-    void CopySeeds(Seeds &seeds) { seeds = m_seeds; }
+    void CopySeeds(Seeds &seeds) const { seeds = m_seeds; }
+    size_t CalculateMinLocation() const;
 
 private:
     Seeds m_seeds;

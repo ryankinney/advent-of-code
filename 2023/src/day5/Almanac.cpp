@@ -52,11 +52,28 @@ void Almanac::PrintSeeds() const
 
 void Almanac::PrintRangeMaps() const
 {
-    for (RangeMaps::const_iterator iter = m_rangeMaps.begin(); iter != m_rangeMaps.end(); iter++)
-        iter->Print();
+    std::for_each(m_rangeMaps.begin(), m_rangeMaps.end(), [](const RangeMap &rangeMap) { rangeMap.Print(); });
 }
 
 RangeMaps::const_iterator Almanac::FindRangeMap(const std::string &sourceCategory) const
 {
     return std::find_if(m_rangeMaps.begin(), m_rangeMaps.end(), [sourceCategory](const RangeMap &rangeMap) { return rangeMap.GetSourceCategory() == sourceCategory; });
+}
+
+size_t Almanac::CalculateMinLocation() const
+{
+    typedef std::vector<size_t> Locations;
+    Locations locations;
+    CopySeeds(locations);
+
+    std::string sourceCategory = "seed";
+    while (sourceCategory != "location")
+    {
+        RangeMaps::const_iterator rangeMap = FindRangeMap(sourceCategory);
+        for (Locations::iterator iter = locations.begin(); iter != locations.end(); iter++)
+            *iter = rangeMap->MapValue(*iter);
+         sourceCategory = rangeMap->GetDestinationCategory();
+    }
+
+    return *std::min_element(locations.begin(), locations.end());
 }
