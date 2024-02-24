@@ -3,7 +3,21 @@
 #include <string>
 #include <vector>
 
-typedef std::vector<size_t> Seeds;
+class Range
+{
+public:
+    Range(const size_t start, const size_t size) : m_start(start), m_size(size) {}
+
+    void Reset(const size_t start, const size_t size) { m_start = start; m_size = size; }
+
+    size_t GetStart() const { return m_start; }
+    size_t GetSize() const { return m_size; }
+
+private:
+    size_t m_start;
+    size_t m_size;
+};
+typedef std::vector<Range> Ranges;
 
 class RangeMapEntry
 {
@@ -45,17 +59,17 @@ typedef std::vector<RangeMap> RangeMaps;
 class Almanac
 {
 public:
-    void AddSeed(const size_t seed) { m_seeds.push_back(seed); }
+    void AddSeed(const size_t seed) { m_seeds.push_back(Range(seed, 1)); }
     void AddRangeMap(const std::string &sourceCategory, const std::string &destinationCategory) { m_rangeMaps.push_back(RangeMap(sourceCategory, destinationCategory)); }
     void AddRange(const size_t destinationStart, const size_t sourceStart, const size_t length) { m_rangeMaps.back().AddRange(destinationStart, sourceStart, length); }
 
     void PrintSeeds() const;
     void PrintRangeMaps() const;
     RangeMaps::const_iterator FindRangeMap(const std::string &sourceCategory) const;
-    void CopySeeds(Seeds &seeds) const { seeds = m_seeds; }
+    void CopySeeds(Ranges &seeds) const { seeds = m_seeds; }
     size_t CalculateMinLocation() const;
 
 private:
-    Seeds m_seeds;
+    Ranges m_seeds;
     RangeMaps m_rangeMaps;
 };
