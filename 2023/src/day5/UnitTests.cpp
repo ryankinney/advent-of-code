@@ -8,6 +8,13 @@ TEST(Almanac, Example)
     EXPECT_EQ(almanac.CalculateMinLocation(), 35);
 }
 
+TEST(Almanac, Input)
+{
+    Almanac almanac;
+    AlmanacFileParser(almanac).Load("input.txt");
+    EXPECT_EQ(almanac.CalculateMinLocation(), 322500873);
+}
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

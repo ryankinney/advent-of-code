@@ -72,8 +72,7 @@ size_t Almanac::CalculateMinLocation() const
         RangeMaps::const_iterator rangeMap = FindRangeMap(sourceCategory);
         for (Locations::iterator iter = locations.begin(); iter != locations.end(); iter++)
             *iter = rangeMap->MapValue(*iter);
-         sourceCategory = rangeMap->GetDestinationCategory();
+        sourceCategory = rangeMap->GetDestinationCategory();
     }
-
     return *std::min_element(locations.begin(), locations.end());
 }
