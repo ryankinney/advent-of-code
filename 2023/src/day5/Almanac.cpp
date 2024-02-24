@@ -3,19 +3,19 @@
 #include <algorithm>
 #include <iostream>
 
-Range::Range(const size_t destinationStart, const size_t sourceStart, const size_t length) :
+RangeMapEntry::RangeMapEntry(const size_t destinationStart, const size_t sourceStart, const size_t length) :
     m_destinationStart(destinationStart),
     m_sourceStart(sourceStart),
     m_length(length)
 {
 }
 
-void Range::Print() const
+void RangeMapEntry::Print() const
 {
     std::cout << m_destinationStart << ' ' << m_sourceStart << ' ' << m_length << std::endl;
 }
 
-std::pair<bool, size_t> Range::MapValue(const size_t sourceValue) const
+std::pair<bool, size_t> RangeMapEntry::MapValue(const size_t sourceValue) const
 {
     std::pair<bool, size_t> ret = std::make_pair(false, 0);
     if (sourceValue >= m_sourceStart && sourceValue < m_sourceStart + m_length)
@@ -26,14 +26,14 @@ std::pair<bool, size_t> Range::MapValue(const size_t sourceValue) const
 void RangeMap::Print() const
 {
     std::cout << m_sourceCategory << "-->" << m_destinationCategory << std::endl;
-    for (Ranges::const_iterator iter = m_ranges.begin(); iter != m_ranges.end(); iter++)
+    for (RangeMapEntries::const_iterator iter = m_entries.begin(); iter != m_entries.end(); iter++)
         iter->Print();
 }
 
 size_t RangeMap::MapValue(const size_t sourceValue) const
 {
     std::pair<bool, size_t> ret = std::make_pair(false, 0);
-    for (Ranges::const_iterator iter = m_ranges.begin(); iter != m_ranges.end(); iter++)
+    for (RangeMapEntries::const_iterator iter = m_entries.begin(); iter != m_entries.end(); iter++)
     {
         ret = iter->MapValue(sourceValue);
         if (ret.first)

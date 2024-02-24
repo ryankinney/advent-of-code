@@ -5,10 +5,10 @@
 
 typedef std::vector<size_t> Seeds;
 
-class Range
+class RangeMapEntry
 {
 public:
-    Range(const size_t destinationStart, const size_t sourceStart, const size_t length);
+    RangeMapEntry(const size_t destinationStart, const size_t sourceStart, const size_t length);
 
     void Print() const;
     std::pair<bool, size_t> MapValue(const size_t sourceValue) const;
@@ -18,7 +18,7 @@ private:
     size_t m_sourceStart = 0;
     size_t m_length;
 };
-typedef std::vector<Range> Ranges;
+typedef std::vector<RangeMapEntry> RangeMapEntries;
 
 class RangeMap
 {
@@ -32,13 +32,13 @@ public:
     const std::string &GetDestinationCategory() const { return m_destinationCategory; }
     void Print() const;
 
-    void AddRange(const size_t destinationStart, const size_t sourceStart, const size_t length) { m_ranges.push_back(Range(destinationStart, sourceStart, length)); }
+    void AddRange(const size_t destinationStart, const size_t sourceStart, const size_t length) { m_entries.push_back(RangeMapEntry(destinationStart, sourceStart, length)); }
     size_t MapValue(const size_t source) const;
 
 private:
     std::string m_sourceCategory;
     std::string m_destinationCategory;
-    Ranges m_ranges;
+    RangeMapEntries m_entries;
 };
 typedef std::vector<RangeMap> RangeMaps;
 
