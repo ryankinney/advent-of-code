@@ -12,7 +12,6 @@ TEST(Almanac, Part2Example)
 {
     Almanac almanac;
     AlmanacFileParser(true, almanac).Load("example.txt");
-    almanac.PrintSeeds();
 }
 
 TEST(Almanac, Part1Input)
