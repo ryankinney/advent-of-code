@@ -59,7 +59,7 @@ typedef std::vector<RangeMap> RangeMaps;
 class Almanac
 {
 public:
-    void AddSeed(const size_t seed) { m_seeds.push_back(Range(seed, 1)); }
+    void AddSeedRange(const size_t seedStart, const size_t seedSize) { m_seeds.push_back(Range(seedStart, seedSize)); }
     void AddRangeMap(const std::string &sourceCategory, const std::string &destinationCategory) { m_rangeMaps.push_back(RangeMap(sourceCategory, destinationCategory)); }
     void AddRange(const size_t destinationStart, const size_t sourceStart, const size_t length) { m_rangeMaps.back().AddRange(destinationStart, sourceStart, length); }
 

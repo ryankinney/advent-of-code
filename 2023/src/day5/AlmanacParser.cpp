@@ -3,8 +3,9 @@
 #include <iostream>
 #include <sstream>
 
-void AlmanacLineParser::Init(const ExpectedToken expectedToken, Almanac &almanac)
+void AlmanacLineParser::Init(const bool parseSeedsAsRange, const ExpectedToken expectedToken, Almanac &almanac)
 {
+    m_parseSeedsAsRange = parseSeedsAsRange;
     m_expectedToken = expectedToken;
     m_almanac = &almanac;
 }
@@ -18,9 +19,21 @@ void AlmanacLineParser::ParseSeeds(const std::string &line)
     std::string theWordSeeds;
     in >> theWordSeeds;
 
-    size_t seed = 0;
-    while (in >> seed)
-        m_almanac->AddSeed(seed);
+    if (m_parseSeedsAsRange)
+    {
+        size_t seedStart = 0, seedSize = 0;
+        while (in >> seedStart)
+        {
+            in >> seedSize;
+            m_almanac->AddSeedRange(seedStart, seedSize);
+        }
+    }
+    else
+    {   
+        size_t seed = 0;
+        while (in >> seed)
+            m_almanac->AddSeedRange(seed, 1);
+    }
 }
 
 void AlmanacLineParser::ParseRangeMap(const std::string &line)
@@ -74,15 +87,16 @@ void AlmanacLineParser::ParseLine(const std::string &line)
     }
 }
 
-AlmanacFileParser::AlmanacFileParser(Almanac &almanac) : 
+AlmanacFileParser::AlmanacFileParser(const bool parseSeedsAsRange, Almanac &almanac) : 
     FileParser(std::unique_ptr<LineParserFactoryBase>(new LineParserFactory<AlmanacLineParser>)),
+    m_parseSeedsAsRange(parseSeedsAsRange),
     m_almanac(almanac)
 {
 }
 
 void AlmanacFileParser::OnBeginLine(LineParser &lineParser)
 {
-    dynamic_cast<AlmanacLineParser &>(lineParser).Init(m_expectedToken, m_almanac);
+    dynamic_cast<AlmanacLineParser &>(lineParser).Init(m_parseSeedsAsRange, m_expectedToken, m_almanac);
 }
 
 void AlmanacFileParser::OnEndLine(LineParser &lineParser)

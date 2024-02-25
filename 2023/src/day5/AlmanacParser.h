@@ -14,7 +14,7 @@ enum ExpectedToken
 class AlmanacLineParser : public LineParser
 {
 public:
-    void Init(const ExpectedToken expectedToken, Almanac &almanac);
+    void Init(const bool parseSeedsAsRange, const ExpectedToken expectedToken, Almanac &almanac);
 
     void ParseLine(const std::string &line) override;
     bool IsEmptyLine() const { return m_isEmptyLine; }
@@ -26,19 +26,21 @@ private:
 
     ExpectedToken m_expectedToken = ExpectingSeeds;
     Almanac *m_almanac = nullptr;
+    bool m_parseSeedsAsRange = false;
     bool m_isEmptyLine = false;
 };
 
 class AlmanacFileParser : public FileParser
 {
 public:
-    AlmanacFileParser(Almanac &almanac);
+    AlmanacFileParser(const bool parseSeedsAsRange, Almanac &almanac);
 
 protected:
     void OnBeginLine(LineParser &lineParser) override;
     void OnEndLine(LineParser &lineParser) override;
 
 private:
+    bool m_parseSeedsAsRange = false;
     ExpectedToken m_expectedToken = ExpectingSeeds;
     Almanac &m_almanac;
 };
