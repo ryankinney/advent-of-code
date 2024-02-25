@@ -15,11 +15,11 @@ void RangeMapEntry::Print() const
     std::cout << m_destinationStart << ' ' << m_sourceStart << ' ' << m_length << std::endl;
 }
 
-std::pair<bool, size_t> RangeMapEntry::MapValue(const size_t sourceValue) const
+std::pair<bool, Range> RangeMapEntry::MapValue(const Range &sourceValue) const
 {
-    std::pair<bool, size_t> ret = std::make_pair(false, 0);
-    if (sourceValue >= m_sourceStart && sourceValue < m_sourceStart + m_length)
-        ret = std::make_pair(true, m_destinationStart + sourceValue - m_sourceStart);
+    std::pair<bool, Range> ret = std::make_pair(false, Range(0,0));
+    if (sourceValue.GetStart() >= m_sourceStart && sourceValue.GetStart() < m_sourceStart + m_length)
+        ret = std::make_pair(true, Range(m_destinationStart + sourceValue.GetStart() - m_sourceStart, 1));
     return ret;
 }
 
@@ -30,16 +30,16 @@ void RangeMap::Print() const
         iter->Print();
 }
 
-size_t RangeMap::MapValue(const size_t sourceValue) const
+Range RangeMap::MapValue(const Range &sourceValue) const
 {
-    std::pair<bool, size_t> ret = std::make_pair(false, 0);
+    std::pair<bool, Range> ret = std::make_pair(false, Range(0, 0));
     for (RangeMapEntries::const_iterator iter = m_entries.begin(); iter != m_entries.end(); iter++)
     {
         ret = iter->MapValue(sourceValue);
         if (ret.first)
             break;
     }
-    return ret.first ? ret.second : sourceValue;
+    return ret.first ? ret.second : Range(sourceValue.GetStart(), 1);
 }
 
 void Almanac::PrintSeeds() const
@@ -70,7 +70,7 @@ size_t Almanac::CalculateMinLocation() const
     {
         RangeMaps::const_iterator rangeMap = FindRangeMap(sourceCategory);
         for (Ranges::iterator iter = locations.begin(); iter != locations.end(); iter++)
-            iter->Reset(rangeMap->MapValue(iter->GetStart()), 1);
+            *iter = rangeMap->MapValue(*iter);
         sourceCategory = rangeMap->GetDestinationCategory();
     }
     return std::min_element(locations.begin(), locations.end(), [](const Range &range1, const Range &range2) { return range1.GetStart() < range2.GetStart(); })->GetStart();

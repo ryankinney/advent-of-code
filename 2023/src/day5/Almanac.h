@@ -25,7 +25,7 @@ public:
     RangeMapEntry(const size_t destinationStart, const size_t sourceStart, const size_t length);
 
     void Print() const;
-    std::pair<bool, size_t> MapValue(const size_t sourceValue) const;
+    std::pair<bool, Range> MapValue(const Range &sourceValue) const;
 
 private:
     size_t m_destinationStart = 0;
@@ -47,7 +47,7 @@ public:
     void Print() const;
 
     void AddRange(const size_t destinationStart, const size_t sourceStart, const size_t length) { m_entries.push_back(RangeMapEntry(destinationStart, sourceStart, length)); }
-    size_t MapValue(const size_t source) const;
+    Range MapValue(const Range &source) const;
 
 private:
     std::string m_sourceCategory;
