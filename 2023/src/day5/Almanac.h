@@ -6,14 +6,15 @@
 class Range
 {
 public:
-    Range(const size_t start, const size_t size) : m_start(start), m_size(size) {}
+    Range() : m_isEmpty(true), m_start(0), m_size(0) {}
+    Range(const size_t start, const size_t size) : m_isEmpty(false), m_start(start), m_size(size) {}
 
-    void Reset(const size_t start, const size_t size) { m_start = start; m_size = size; }
-
+    bool IsEmpty() const { return m_isEmpty; }
     size_t GetStart() const { return m_start; }
     size_t GetSize() const { return m_size; }
 
 private:
+    bool m_isEmpty;
     size_t m_start;
     size_t m_size;
 };
@@ -25,7 +26,7 @@ public:
     RangeMapEntry(const size_t destinationStart, const size_t sourceStart, const size_t length);
 
     void Print() const;
-    std::pair<bool, Range> MapValue(const Range &sourceValue) const;
+    std::pair<Range, Range> MapValue(const Range &sourceValue) const;
 
 private:
     size_t m_destinationStart = 0;

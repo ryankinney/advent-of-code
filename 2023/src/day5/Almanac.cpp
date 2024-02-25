@@ -15,11 +15,14 @@ void RangeMapEntry::Print() const
     std::cout << m_destinationStart << ' ' << m_sourceStart << ' ' << m_length << std::endl;
 }
 
-std::pair<bool, Range> RangeMapEntry::MapValue(const Range &sourceValue) const
+std::pair<Range, Range> RangeMapEntry::MapValue(const Range &sourceValue) const
 {
-    std::pair<bool, Range> ret = std::make_pair(false, Range(0,0));
+    std::pair<Range, Range> ret = std::make_pair(Range(), sourceValue);
     if (sourceValue.GetStart() >= m_sourceStart && sourceValue.GetStart() < m_sourceStart + m_length)
-        ret = std::make_pair(true, Range(m_destinationStart + sourceValue.GetStart() - m_sourceStart, 1));
+    {
+        ret.first = Range(m_destinationStart + sourceValue.GetStart() - m_sourceStart, 1);
+        ret.second = Range();
+    }
     return ret;
 }
 
@@ -32,14 +35,14 @@ void RangeMap::Print() const
 
 Range RangeMap::MapValue(const Range &sourceValue) const
 {
-    std::pair<bool, Range> ret = std::make_pair(false, Range(0, 0));
+    std::pair<Range, Range> ret;
     for (RangeMapEntries::const_iterator iter = m_entries.begin(); iter != m_entries.end(); iter++)
     {
         ret = iter->MapValue(sourceValue);
-        if (ret.first)
+        if (ret.second.IsEmpty())
             break;
     }
-    return ret.first ? ret.second : Range(sourceValue.GetStart(), 1);
+    return ret.second.IsEmpty() ? ret.first : ret.second;
 }
 
 void Almanac::PrintSeeds() const
