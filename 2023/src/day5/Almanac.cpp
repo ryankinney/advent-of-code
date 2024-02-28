@@ -15,15 +15,29 @@ void RangeMapEntry::Print() const
     std::cout << m_destinationStart << ' ' << m_sourceStart << ' ' << m_length << std::endl;
 }
 
-std::pair<Range, Range> RangeMapEntry::MapValue(const Range &sourceValue) const
+Range RangeMapEntry::MapRange(const Range &sourceRange, Range &leftRemainder, Range &rightRemainder) const
 {
-    std::pair<Range, Range> ret = std::make_pair(Range(), sourceValue);
-    if (sourceValue.GetStart() >= m_sourceStart && sourceValue.GetStart() < m_sourceStart + m_length)
+    Range overlap;
+    const size_t overlapStart = std::max(m_sourceStart, sourceRange.GetStart());
+    const size_t overlapStop = std::min(m_sourceStart + m_length, sourceRange.GetStart() + sourceRange.GetSize());
+    if (overlapStart < overlapStop)
     {
-        ret.first = Range(m_destinationStart + sourceValue.GetStart() - m_sourceStart, 1);
-        ret.second = Range();
+        if (sourceRange.GetStart() < overlapStart)
+            leftRemainder = Range(sourceRange.GetStart(), overlapStart - sourceRange.GetStart());
+        overlap = Range(overlapStart, overlapStop - overlapStart);
+        if (sourceRange.GetStart() + sourceRange.GetSize() > m_sourceStart + m_length)
+        {
+            rightRemainder = Range(overlapStop, sourceRange.GetSize() - overlapStop);
+        }
     }
-    return ret;
+
+    Range mappedRange;
+    if (!overlap.IsEmpty())
+    {
+        const size_t offsetInRange = overlap.GetStart() - m_sourceStart;
+        mappedRange = Range(m_destinationStart + offsetInRange, overlap.GetSize());
+    }
+    return mappedRange;
 }
 
 void RangeMap::Print() const
@@ -33,16 +47,32 @@ void RangeMap::Print() const
         iter->Print();
 }
 
-Range RangeMap::MapValue(const Range &sourceValue) const
+void RangeMap::MapRange(const Range &originalSourceRange, Ranges &destinationRanges) const
 {
-    std::pair<Range, Range> ret;
-    for (RangeMapEntries::const_iterator iter = m_entries.begin(); iter != m_entries.end(); iter++)
+    Ranges sourceRanges;
+    sourceRanges.push_back(originalSourceRange);
+    while (!sourceRanges.empty())
     {
-        ret = iter->MapValue(sourceValue);
-        if (ret.second.IsEmpty())
-            break;
+        const Range &sourceRange = sourceRanges.back();
+        sourceRanges.pop_back();
+
+        Range destinationRange = sourceRange;
+        for (RangeMapEntries::const_iterator iter = m_entries.begin(); iter != m_entries.end(); iter++)
+        {
+            Range leftRemainder, rightRemainder;
+            const Range &mappedRange = iter->MapRange(sourceRange, leftRemainder, rightRemainder);
+            if (!mappedRange.IsEmpty())
+            {
+                if (!leftRemainder.IsEmpty())
+                    sourceRanges.push_back(leftRemainder);
+                if (!rightRemainder.IsEmpty())
+                    sourceRanges.push_back(rightRemainder);
+                destinationRange = mappedRange;
+                break;
+            }
+        }
+        destinationRanges.push_back(destinationRange);
     }
-    return ret.second.IsEmpty() ? ret.first : ret.second;
 }
 
 void Almanac::PrintSeeds() const
@@ -71,10 +101,13 @@ size_t Almanac::CalculateMinLocation() const
     std::string sourceCategory = "seed";
     while (sourceCategory != "location")
     {
+        Ranges destinationRanges;
         RangeMaps::const_iterator rangeMap = FindRangeMap(sourceCategory);
         for (Ranges::iterator iter = locations.begin(); iter != locations.end(); iter++)
-            *iter = rangeMap->MapValue(*iter);
+            rangeMap->MapRange(*iter, destinationRanges);
+
         sourceCategory = rangeMap->GetDestinationCategory();
+        locations = destinationRanges;
     }
     return std::min_element(locations.begin(), locations.end(), [](const Range &range1, const Range &range2) { return range1.GetStart() < range2.GetStart(); })->GetStart();
 }

@@ -7,13 +7,6 @@ TEST(Almanac, Part1Example)
     AlmanacFileParser(false, almanac).Load("example.txt");
     EXPECT_EQ(almanac.CalculateMinLocation(), 35);
 }
-
-TEST(Almanac, Part2Example)
-{
-    Almanac almanac;
-    AlmanacFileParser(true, almanac).Load("example.txt");
-}
-
 TEST(Almanac, Part1Input)
 {
     Almanac almanac;
@@ -21,10 +14,18 @@ TEST(Almanac, Part1Input)
     EXPECT_EQ(almanac.CalculateMinLocation(), 322500873);
 }
 
+TEST(Almanac, Part2Example)
+{
+    Almanac almanac;
+    AlmanacFileParser(true, almanac).Load("example.txt");
+    EXPECT_EQ(almanac.CalculateMinLocation(), 46);
+}
+
 TEST(Almanac, Part2Input)
 {
     Almanac almanac;
     AlmanacFileParser(true, almanac).Load("input.txt");
+    EXPECT_EQ(almanac.CalculateMinLocation(), 108956227);
 }
 
 int main(int argc, char **argv)
