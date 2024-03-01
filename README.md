@@ -2,6 +2,7 @@
 ## Dependencies
 * g++
 * googletest
+* cmake
 ## How to Build
 ~~~bash
 $ cd 2023
