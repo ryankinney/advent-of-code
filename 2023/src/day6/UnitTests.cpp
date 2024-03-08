@@ -9,6 +9,14 @@ TEST(Document, Part1Example)
     EXPECT_EQ(document.CalculateMarginOfError(), 288);
 }
 
+TEST(Document, Part1Input)
+{
+    Document document;
+    DocumentParser parser(document, false);
+    parser.Load("input.txt");
+    EXPECT_EQ(document.CalculateMarginOfError(), 140220);
+}
+
 TEST(Document, Part2Example)
 {
     Document document;
@@ -17,12 +25,12 @@ TEST(Document, Part2Example)
     EXPECT_EQ(document.CalculateMarginOfError(), 71503);
 }
 
-TEST(Document, Part1Input)
+TEST(Document, Part2Input)
 {
     Document document;
-    DocumentParser parser(document, false);
+    DocumentParser parser(document, true);
     parser.Load("input.txt");
-    EXPECT_EQ(document.CalculateMarginOfError(), 140220);
+    EXPECT_EQ(document.CalculateMarginOfError(), 39570185);
 }
 
 int main(int argc, char **argv)
