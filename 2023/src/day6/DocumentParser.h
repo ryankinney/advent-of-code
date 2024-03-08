@@ -24,15 +24,16 @@ private:
     std::vector<size_t> m_values;
 };
 
-class DocumentLineParserFactory : public LineParserFactoryBase
+class Part1LineParser : public DocumentLineParser
 {
 public:
-    DocumentLineParserFactory(const bool parseAsOneRace) : m_parseAsOneRace(parseAsOneRace) {}
+    Part1LineParser() : DocumentLineParser(false) {}
+};
 
-    std::unique_ptr<LineParser> CreateLineParser() override { return std::unique_ptr<LineParser>(new DocumentLineParser(m_parseAsOneRace)); }
-
-private:
-    const bool m_parseAsOneRace;
+class Part2LineParser : public DocumentLineParser
+{
+public:
+    Part2LineParser() : DocumentLineParser(true) {}
 };
 
 class DocumentParser : public FileParser

@@ -41,7 +41,7 @@ void DocumentLineParser::UpdateDocument(Document &document) const
 }
 
 DocumentParser::DocumentParser(Document &document, const bool parseAsOneRace) : 
-    FileParser(std::unique_ptr<LineParserFactoryBase>(new DocumentLineParserFactory(parseAsOneRace))),
+    FileParser(std::unique_ptr<LineParserFactoryBase>(parseAsOneRace ? static_cast<LineParserFactoryBase *>(new LineParserFactory<Part2LineParser>()) : static_cast<LineParserFactoryBase *>(new LineParserFactory<Part1LineParser>()))),
     m_parseAsOneRace(parseAsOneRace),
     m_document(document)
 {
