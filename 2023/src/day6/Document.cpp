@@ -5,6 +5,10 @@
 
 size_t Document::CalculateMarginOfError() const
 {
+    // Calculates the time pressed for the current record holder using the quadratic formula.
+    // The quadratic formula produces two solutions. The times that beat the current record
+    // are between those two solutions (imagine an upside down parabola).
+
     size_t marginOfError = 1;
     for (size_t index = 0; index < m_times.size(); index++)
     {

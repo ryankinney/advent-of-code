@@ -1,12 +1,20 @@
 #include <gtest/gtest.h>
 #include "DocumentParser.h"
 
-TEST(TestCase, Test)
+TEST(Document, Part1Example)
 {
     Document document;
     DocumentParser parser(document);
     parser.Load("example.txt");
     EXPECT_EQ(document.CalculateMarginOfError(), 288);
+}
+
+TEST(Document, Part1Input)
+{
+    Document document;
+    DocumentParser parser(document);
+    parser.Load("input.txt");
+    EXPECT_EQ(document.CalculateMarginOfError(), 140220);
 }
 
 int main(int argc, char **argv)
