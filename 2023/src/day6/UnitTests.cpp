@@ -4,15 +4,23 @@
 TEST(Document, Part1Example)
 {
     Document document;
-    DocumentParser parser(document);
+    DocumentParser parser(document, false);
     parser.Load("example.txt");
     EXPECT_EQ(document.CalculateMarginOfError(), 288);
+}
+
+TEST(Document, Part2Example)
+{
+    Document document;
+    DocumentParser parser(document, true);
+    parser.Load("example.txt");
+    EXPECT_EQ(document.CalculateMarginOfError(), 71503);
 }
 
 TEST(Document, Part1Input)
 {
     Document document;
-    DocumentParser parser(document);
+    DocumentParser parser(document, false);
     parser.Load("input.txt");
     EXPECT_EQ(document.CalculateMarginOfError(), 140220);
 }
