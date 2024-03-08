@@ -12,28 +12,28 @@ enum ValueType
 class DocumentLineParser : public LineParser
 {
 public:
-    DocumentLineParser(const bool parseAsOneRace) : m_parseAsOneRace(parseAsOneRace) {}
-
     void ParseLine(const std::string &line) override;
-
     void UpdateDocument(Document &document) const;
 
+protected:
+    void AddValue(const size_t value) { m_values.push_back(value); }
+    virtual void ParseValues(std::istream &in) = 0;
+
 private:
-    const bool m_parseAsOneRace;
     ValueType m_valueType = Time;
     std::vector<size_t> m_values;
 };
 
 class Part1LineParser : public DocumentLineParser
 {
-public:
-    Part1LineParser() : DocumentLineParser(false) {}
+protected:
+    void ParseValues(std::istream &in) override;
 };
 
 class Part2LineParser : public DocumentLineParser
 {
-public:
-    Part2LineParser() : DocumentLineParser(true) {}
+protected:
+    void ParseValues(std::istream &in) override;
 };
 
 class DocumentParser : public FileParser
@@ -45,6 +45,5 @@ protected:
     void OnEndLine(LineParser &lineParser) override;
 
 private:
-    const bool m_parseAsOneRace;
     Document &m_document;
 };

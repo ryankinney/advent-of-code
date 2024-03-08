@@ -13,23 +13,26 @@ void DocumentLineParser::ParseLine(const std::string &line)
     in >> label;
     m_valueType = label == "Time:" ? Time : Distance;
 
-    if (m_parseAsOneRace)
-    {
-        std::string valueStr, str;
-        while (in >> str)
-            valueStr += str;
+    ParseValues(in);
+}
 
-        std::istringstream valueIn(valueStr);
-        size_t value = 0;
-        valueIn >> value;
-        m_values.push_back(value);
-    }
-    else
-    {
-        size_t value = 0;
-        while (in >> value)
-            m_values.push_back(value);
-    }   
+void Part1LineParser::ParseValues(std::istream &in)
+{
+    size_t value = 0;
+    while (in >> value)
+        AddValue(value);
+}
+
+void Part2LineParser::ParseValues(std::istream &in)
+{
+    std::string str, valueStr;
+    while (in >> str)
+        valueStr += str;
+
+    std::istringstream valueIn(valueStr);
+    size_t value = 0;
+    valueIn >> value;
+    AddValue(value);
 }
 
 void DocumentLineParser::UpdateDocument(Document &document) const
@@ -41,8 +44,7 @@ void DocumentLineParser::UpdateDocument(Document &document) const
 }
 
 DocumentParser::DocumentParser(Document &document, const bool parseAsOneRace) : 
-    FileParser(std::unique_ptr<LineParserFactoryBase>(parseAsOneRace ? static_cast<LineParserFactoryBase *>(new LineParserFactory<Part2LineParser>()) : static_cast<LineParserFactoryBase *>(new LineParserFactory<Part1LineParser>()))),
-    m_parseAsOneRace(parseAsOneRace),
+    FileParser(std::unique_ptr<LineParserFactoryBase>(parseAsOneRace ? static_cast<LineParserFactoryBase *>(new LineParserFactory<Part2LineParser>) : static_cast<LineParserFactoryBase *>(new LineParserFactory<Part1LineParser>))),
     m_document(document)
 {
 }
